@@ -1,15 +1,24 @@
-	<form action="contacts/store" method="POST">
-		<div class="form-group">
-			<label for="">Название</label>
-			<input type="text" name="name" class="form-control" />
-		</div>
-		<div class="form-group">
-			<label for="">Описание</label>
-			<input type="text" name="description" class="form-control" />
-		</div>
-		<div class="form-group">
-			<button class="btn btn-default">Добавить</button>
-		</div>
+	<form action="contacts/store" method="POST" class="well form-horizontal">
+		<fieldset>
+			<div class="form-group">
+				<label for="" class="col-md-4 control-label">Название</label>
+				<div class="col-md-4 inputGroupContainer">
+					<input type="text" name="name" class="form-control" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="" class="col-md-4 control-label">Описание</label>
+				<div class="col-md-4 inputGroupContainer">
+					<input type="text" name="description" class="form-control" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-4 control-label"></label>
+  				<div class="col-md-4">
+					<button class="btn btn-default">Добавить</button>
+				</div>
+			</div>
+		</fieldset>
 	</form>
 	<table class="table table-stripped">
 		<thead>

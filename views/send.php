@@ -1,6 +1,6 @@
-﻿	<form action="send.php" method="POST">
+﻿	<form action="" method="POST"  class="well form-horizontal">
+		<fieldset>
 		<div class="row">
-			<div class="col-sm-8 col-md-8">
 				<div class="form-group">
 					<label for="contact_list_id" class="col-md-4 control-label">Список контактов</label>
 					<div class="col-md-4 inputGroupContainer">
@@ -11,17 +11,23 @@
 						</select>
 					</div>
 				</div>
-			</div>
-			<div class="col-sm-8 col-md-8">
 				<div class="form-group">
-					<label for="title">Название</label>
-					<input type="text" name="title" id="title" class="form-control" />
+					<label for="title" class="col-md-4 control-label">Название</label>
+					<div class="col-md-4 inputGroupContainer">
+						<input type="text" name="title" id="title" class="form-control" />
+					</div>
 				</div>
-				<div class="form-group">
-					<label for="desc">Описание</label>
-					<textarea name="desc" id="desc" class="form-control" /></textarea>
+				<div class="form-group" >
+					<label for="desc" class="col-md-4 control-label">Описание</label>
+					<div class="col-md-4 inputGroupContainer">
+						<textarea name="description" id="desc" class="form-control" /></textarea>
+					</div>
 				</div>
-			</div>
+				<div class="form-group" >
+					<label for="desc" class="col-md-4 control-label"></label>
+					<div class="col-md-4 inputGroupContainer">
+						<button class="btn btn-default right">Отправить</button>
+					</div>
+				</div>
 		</div>
-		<button class="btn btn-default right">Отправить</button>
 	</form>

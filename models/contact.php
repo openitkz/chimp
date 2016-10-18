@@ -10,4 +10,8 @@ class Contact extends Model{
 	public function store($values){
 		$this->db->query("INSERT INTO contact_lists(name,description,users_id) VALUES(?,?,?)",$values);
 	}
+
+	public function store_contact($values){
+		$this->db->query("INSERT INTO contacts(name,surname,email,contact_lists_id) VALUES(?,?,?,?)",$values);
+	}
 }
