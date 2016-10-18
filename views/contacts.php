@@ -34,6 +34,7 @@
 					<td><?= $contact_list->name?></td>
 					<td><?= $contact_list->description?></td>
 					<td><a href="contacts/show/<?= $contact_list->contact_lists_id?>">Перейти</a></td>
+					<td><a href="contacts/delete/<?=$contact_list->contact_lists_id?>">Удалить</a></td>
 				</tr>
 			<?php } ?>
 		</tbody>

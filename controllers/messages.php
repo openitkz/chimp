@@ -11,7 +11,6 @@ class Messages extends Controller{
 		$messages=$this->db->query("SELECT s.* FROM messages_sent AS s WHERE s.user_id=?",[
 				$_SESSION['user_id']
 			])->get();
-		echo 
 
 		$this->load->view('messages',[
 			'messages' => $messages

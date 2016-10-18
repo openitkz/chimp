@@ -47,14 +47,22 @@ class Contacts extends Controller{
 		Redirect::to('contacts');
 	}
 
-	public function show($id){
+	public function show($arr){
 
 		$contacts=$this->db->query("SELECT c.* FROM contacts as c INNER JOIN contact_lists as c_l ON c.contact_lists_id=c_l.contact_lists_id WHERE c_l.contact_lists_id=? AND c_l.users_id=?",[
-				$id,
+				$arr[0],
 				$_SESSION['user_id']
 			])->get();
+
 		$this->load->view('contact',[
 				'contacts' => $contacts
 			]);
+	}
+
+	public function delete($arr){
+		$this->db->query("DELETE FROM contact_lists WHERE contact_lists_id=?",[
+				$arr[0]
+			]);
+		Redirect::to('contacts');
 	}
 }
