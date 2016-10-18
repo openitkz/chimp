@@ -1,21 +1,33 @@
-﻿<?php
-	require_once 'config/app.php';
+<?php
+	
+	if(!isset($_SESSION)){
+		session_start();
+	}
 
-	Guard::protect(false);
+	if(isset($_SESSION['user_id'])){
+		header('Location: index.php');
+		exit();
+	}
 
-	$db=DB::getInstance();
 
 	if(isset($_POST) && !empty($_POST)){
-		$name=stripcslashes($_POST['username']);
+		$name=stripcslashes($_POST['name']);
 		$password=stripcslashes(sha1($_POST['password']));
 		$email=stripcslashes($_POST['email']);
 
-		$db->query("INSERT INTO users(username, password) VALUES(?,?)",
-			[
+		require_once('helpers/dbconnect.php');
+
+		$stmt=$db->prepare("INSERT INTO users(name, password, email) VALUES(?,?,?)");
+
+		$stmt->execute([
 			$name,
-			$password
+			$password,
+			$email
 		]);
-		Redirect::to('index');
+
+		header('Location: index.php');
+
+		exit();
 	}
 
 ?>
@@ -23,27 +35,28 @@
 <?php 
 	require_once('layouts/header.php');
 ?>
+<div class="container">
     <div class="row">
         <div class="col-md-offset-5 col-md-3">
-            <form class="form-login" action="" method="POST">
-	            <h4>Register</h4>
-	            <input type="text" id="userName" name="username" class="form-control input-sm chat-input" placeholder="username" />
+            <form class="form-login" action="register.php" method="POST">
+	            <h4>Register form</h4>
+	            <input type="text" id="userName" name="name" class="form-control input-sm chat-input" placeholder="username" />
 	            </br>
-	          	<input type="text" id="name" name="name" class="form-control input-sm chat-input" placeholder="name" />
-	            <br>
-	            <input type="text" id="surname" name="surname" class="form-control input-sm chat-input" placeholder="surname" />
-	            <br>
 	            <input type="password" id="userPassword" name="password" class="form-control input-sm chat-input" placeholder="password" />
+	            </br>
+	             <input type="text" id="userEmail" name="email" class="form-control input-sm chat-input" placeholder="email" />
 	            </br>
 	            <div class="wrapper">
 		            <span class="group-btn">     
-		                <button href="#" class="btn btn-primary btn-md">login<i class="fa fa-sign-in"></i></button>
+		                <button href="#" class="btn btn-primary btn-md">login <i class="fa fa-sign-in"></i></button>
 		            </span>
 	            </div>
             </form>
         
         </div>
     </div>
+</div>
+
 <?php 
 	require_once('layouts/footer.php');
 ?>

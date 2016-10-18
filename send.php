@@ -1,86 +1,48 @@
-﻿<?php 
-require_once 'config/app.php';
+<?php 
+	
+if(!isset($_SESSION)){
+	session_start();
+}
 
-
-Guard::protect();
-
-$db=DB::getInstance();
+if(!isset($_SESSION['user_id'])){
+	header('Location: index.php');
+	exit();
+}
 
 if(isset($_POST) && !empty($_POST)){
-	$contact_list_id=stripcslashes($_POST['contact_lists_id']);
+	$contacts=stripcslashes($_POST['contacts']);
 	$title=stripcslashes($_POST['title']);
-	$desc=stripcslashes($_POST['description']);
-
-
-	$stmt=$db->prepare("SELECT * from contacts WHERE contact_lists_id=?");
-
-	$stmt->execute([
-		$contact_list_id
-	]);
-
-	$contacts=[];
-	while($contact=$stmt->fetch(PDO::FETCH_OBJ)){
-		$contacts[]=$contact;
-	}
-
-	$stmt=$db->prepare("INSERT INTO messages_sent(user_id,m_datetime,subject,email,html_message,status) VALUES(?,?,?,?,?,?)");
-
-	foreach($contacts as $contact){
-		$values=[
-			$_SESSION['user_id'],
-			time(),
-			$title,
-			$contact->email,
-			$desc
-		];
-
-		if(mail($contact->email,$title,$desc,'From: zorkanov.93@gmail.com')){
-			$values[]='S';
-			$stmt->execute($values);
-		}else{
-			$values[]='N';
-			$stmt->execute($values);
-		}
-	}
+	$desc=stripcslashes($_POST['desc']);
+	
 }
-$contact_lists=$db->query("SELECT * from contact_lists WHERE users_id=?",[
-	$_SESSION['user_id']
-	])->get();
+
 ?>
 
 <?php require_once('layouts/header.php');?>
-	<form action="" method="POST"  class="well form-horizontal">
-		<fieldset>
+	<form action="send.php" method="POST">
 		<div class="row">
+			<div class="col-sm-4 col-md-4">
+				<div class="contacts">
+					<div class="form-group">
+						<label for="">Список рассылки</label>
+						<input type="text" class="form-control">
+					</div>
+					<button class="btn btn-default">Добавить</button>
+					<ul class="list-group"></ul>
+				</div>
+			</div>
+			<div class="col-sm-8 col-md-8">
 				<div class="form-group">
-					<label for="contact_list_id" class="col-md-4 control-label">Список контактов</label>
-					<div class="col-md-4 inputGroupContainer">
-						<select name="contact_lists_id" id="contact_lists_id" class="form-control">
-							<?php foreach($contact_lists as $contact_list){?>
-								<option value="<?= $contact_list->contact_lists_id?>"><?= $contact_list->name?></option>
-							<?php } ?>
-						</select>
-					</div>
+					<label for="title">Название</label>
+					<input type="text" name="title" id="title" class="form-control" />
 				</div>
 				<div class="form-group">
-					<label for="title" class="col-md-4 control-label">Название</label>
-					<div class="col-md-4 inputGroupContainer">
-						<input type="text" name="title" id="title" class="form-control" />
-					</div>
+					<label for="desc">Описание</label>
+					<textarea name="desc" id="desc" class="form-control" /></textarea>
 				</div>
-				<div class="form-group" >
-					<label for="desc" class="col-md-4 control-label">Описание</label>
-					<div class="col-md-4 inputGroupContainer">
-						<textarea name="description" id="desc" class="form-control" /></textarea>
-					</div>
-				</div>
-				<div class="form-group" >
-					<label for="desc" class="col-md-4 control-label"></label>
-					<div class="col-md-4 inputGroupContainer">
-						<button class="btn btn-default right">Отправить</button>
-					</div>
-				</div>
+			</div>
 		</div>
+		<button class="btn btn-default right">Отправить</button>
 	</form>
 
 <?php require_once('layouts/footer.php');?>

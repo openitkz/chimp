@@ -1,7 +1,9 @@
 <?php 
-
-	require_once 'config/app.php';
+	if(!isset($_SESSION)){
+		session_start();
+	}
 
 	session_destroy();
 
-	Redirect::to('index');
+	header('Location: index.php');
+	exit();

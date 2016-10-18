@@ -1,67 +1,78 @@
-﻿<?php
-require_once 'config/app.php';
+<?php
 
-Guard::protect();
+if(!isset($_SESSION)){
+	session_start();
+}
 
-$db=DB::getInstance();
+if(!isset($_SESSION['user_id'])){
+	header('Location: index.php');
+	exit();
+}
+
+require_once('helpers/dbconnect.php');
 
 if(isset($_POST) && !empty($_POST)){
-	$name=stripcslashes($_POST['username']);
+	$name=stripcslashes($_POST['name']);
 	if(!empty($_POST['password'])){
 		$password=stripcslashes(sha1($_POST['password']));
 	}
 	$email=stripcslashes($_POST['email']);
 
-	$sql="UPDATE users SET username=?";
+	$sql="UPDATE users SET name=?, email=? ";
 	if(isset($password)){
 		$sql.=", password=?";
 	}
+
+	$stmt=$db->prepare($sql);
 
 	$updateVars=[$name,$email];
 	if(isset($password)){
 		$updateVars[]=$password;
 	}
 
-	$db->query($sql,$updateVars);
+	$stmt->execute($updateVars);
 
-	Redirect::to('index');
+	header('Location: profile.php');
+	exit();
 }
 
-$user=$db->query("SELECT username,password FROM users WHERE user_id=?",[
-		$_SESSION['user_id']
-	])->first();
+$stmt=$db->prepare("SELECT name,password,email FROM users WHERE id=?");
+$stmt->execute([
+	$_SESSION['user_id']
+]);
 
-
+$user=$stmt->fetch(PDO::FETCH_OBJ);
 ?>
 <?php 
 	require_once('layouts/header.php');
 ?>
+<div class="container">
     <div class="row">
-            <form class="form-login well form-horizontal" action="" method="POST" >
+        <div class="col-md-offset-5 col-md-3 col-sm-5">
+            <form class="form-login" action="register.php" method="POST">
 	            <h4>Change profile</h4>
-	            <fieldset>
-		            <div class="form-group">
-		            	<label for="userName"  class="col-md-4 control-label">Имя</label>
-		            	<div class="col-md-4 inputGroupContainer">
-		            		<input type="text" id="userName" name="username" class="form-control input-sm chat-input" placeholder="username" value="<?= $user->username?>"/>
-		            	</div>
-		            </div>
-		            <div class="form-group">
-		            	<label for="userPassword"  class="col-md-4 control-label">Пароль</label>
-		            	<div class="col-md-4 inputGroupContainer">
-		            		<input type="password" id="userPassword" name="password" class="form-control input-sm chat-input" placeholder="new password"/>
-		            	</div>
-		            </div>
-		            <div class="wrapper">
-		            	<label for=""  class="col-md-4 control-label"></label>
-		            	<div class="col-md-4 inputGroupContainer">
-	
-			                <button href="#" class="btn btn-primary btn-md">save updates <i class="fa fa-sign-in"></i></button>
-			            </div>
-		            </div>
-		        </fieldset>
+	            <div class="form-group">
+	            	<label for="userName">Имя</label>
+	            	<input type="text" id="userName" name="name" class="form-control input-sm chat-input" placeholder="username" value="<?= $user->name?>"/>
+	            </div>
+	            <div class="form-group">
+	            	<label for="userPassword">Пароль</label>
+	            	<input type="password" id="userPassword" name="password" class="form-control input-sm chat-input" placeholder="new password"/>
+	            </div>
+	            <div class="form-group">
+	            	<label for="userEmail">Email</label>
+	             	<input type="text" id="userEmail" name="email" class="form-control input-sm chat-input" placeholder="email" value="<?= $user->email?>" />
+	            </div>
+	            <div class="wrapper">
+		            <span class="group-btn">     
+		                <button href="#" class="btn btn-primary btn-md">login <i class="fa fa-sign-in"></i></button>
+		            </span>
+	            </div>
             </form>
+        
+        </div>
     </div>
+</div>
 
 <?php 
 	require_once('layouts/footer.php');
