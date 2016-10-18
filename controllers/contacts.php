@@ -20,8 +20,10 @@ class Contacts extends Controller{
 	public function store(){
 		if(isset($_POST) && !empty($_POST)){
 			$name=stripcslashes($_POST['name']);
+			$description=stripcslashes($_POST['description']);
 			$this->contact->store([
 				$name,
+				$description,
 				$_SESSION['user_id']
 			]);
 		}

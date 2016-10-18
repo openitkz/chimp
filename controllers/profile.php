@@ -24,15 +24,18 @@ class Profile extends Controller{
 			}
 			$email=stripcslashes($_POST['email']);
 
-			$sql="UPDATE users SET name=?, email=? ";
+			$sql="UPDATE users SET username=? ";
 			if(isset($password)){
 				$sql.=", password=?";
 			}
 
-			$updateVars=[$name,$email];
+			$sql=" WHERE user_id = ?";
+			$updateVars=[$name];
 			if(isset($password)){
 				$updateVars[]=$password;
 			}
+
+			$updateVars[]=$_SESSION['user_id'];
 
 			$this->db->query($sql,$updateVars);
 		}

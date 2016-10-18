@@ -17,10 +17,9 @@ class Register extends Controller{
 			$password=stripcslashes(sha1($_POST['password']));
 			$email=stripcslashes($_POST['email']);
 
-			$this->db->query("INSERT INTO users(name, password, email) VALUES(?,?,?)",[
+			$this->db->query("INSERT INTO users(username, password) VALUES(?,?)",[
 					$name,
-					$password,
-					$email
+					$password
 				]);
 		}
 		Redirect::to('home');
