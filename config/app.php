@@ -4,34 +4,24 @@ if(!isset($_SESSION)){
 	session_start();
 }
 
-define('BASE_URL','http://localhost/');
+define('BASE_URL','http://127.0.0.1:8088/');
 
-define('SUB_URL','/index.php/');
+define('REDIRECT_URL','http://127.0.0.1:8088/index.php/');
 
-$middlewares=[
-	'index'    => 'guest',
-	'contacts' => 'guest',
-	'contact'  => 'guest',
-	'login'    => 'logged',
-	'logout'   => 'guest',
-	'register' => 'logged',
-	'send'     => 'guest',
-	'profile'  => 'guest',
-	'home'     => 'guest'
+
+$autoloads=[
+	'classes',
+	'vendor',
+	'controllers'
 ];
 
-spl_autoload_register(function ($class) {
-    include 'classes/' . $class . '.php';
-});
+foreach($autoloads as $item){
+	autoload($item.'/');
+}
 
-
-$db=DB::getInstance();
-
-/*function autoload($path){
+function autoload($path){
 	$files=array_diff(scandir($path), array('.', '..'));
 	foreach($files as $file){
 		include($path.$file);
 	}
 }
-
-autoload('classes/');*/

@@ -1,15 +1,4 @@
-﻿<?php 
-if(isset($_POST) && !empty($_POST)){
-	$contacts=stripcslashes($_POST['contacts']);
-	$title=stripcslashes($_POST['title']);
-	$desc=stripcslashes($_POST['desc']);
-	
-}
-
-?>
-
-<?php require_once('layouts/header.php');?>
-	<form action="send.php" method="POST">
+﻿	<form action="send.php" method="POST">
 		<div class="row">
 			<div class="col-sm-4 col-md-4">
 				<div class="contacts">
@@ -34,5 +23,3 @@ if(isset($_POST) && !empty($_POST)){
 		</div>
 		<button class="btn btn-default right">Отправить</button>
 	</form>
-
-<?php require_once('layouts/footer.php');?>

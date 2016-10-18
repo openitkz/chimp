@@ -1,26 +1,7 @@
-﻿<?php
-	if(isset($_POST) && !empty($_POST)){
-		$name=stripcslashes($_POST['name']);
-		$password=stripcslashes(sha1($_POST['password']));
-		$email=stripcslashes($_POST['email']);
-
-		$db->query("INSERT INTO users(name, password, email) VALUES(?,?,?)",[
-				$name,
-				$password,
-				$email
-			]);
-		Redirect::to('home');
-	}
-
-?>
-
-<?php 
-	require_once('layouts/header.php');
-?>
-<div class="container">
+﻿
     <div class="row">
         <div class="col-md-offset-5 col-md-3">
-            <form class="form-login" action="" method="POST">
+            <form class="form-login" action="register/register" method="POST">
 	            <h4>Register form</h4>
 	            <input type="text" id="userName" name="name" class="form-control input-sm chat-input" placeholder="username" />
 	            </br>
@@ -37,8 +18,3 @@
         
         </div>
     </div>
-</div>
-
-<?php 
-	require_once('layouts/footer.php');
-?>

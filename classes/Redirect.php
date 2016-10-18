@@ -2,7 +2,7 @@
 
 class Redirect{
 	public static function to($path){
-		header('Location: '.$path);
+		header('Location: '.BASE_URL.'index.php/'.$path);
 		exit();
 	}
 }

@@ -1,18 +1,28 @@
 <?php
 
 class Guard{
-	public static function protect($protect){
-		if($protect){
-			if($protect=='guest'){
-				if(!isset($_SESSION['user_id'])){
-					header('Location: login');
-					exit();
-				}
-			}else{
-				if(isset($_SESSION['user_id'])){
-					header('Location: home');
-					exit();
-				}
+	public static $instance=null;
+
+	private function __construct(){
+
+	}
+
+	public function getInstance(){
+		if(!self::$instance){
+			self::$instance=new Guard();
+		}
+
+		return self::$instance;
+	}
+
+	public function from($type){
+		if($type=='guest'){
+			if(!isset($_SESSION['user_id'])){
+				Redirect::to('login');
+			}
+		}else if($type=='logged'){
+			if(isset($_SESSION['user_id'])){
+				Redirect::to('home');
 			}
 		}
 	}

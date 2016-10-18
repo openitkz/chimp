@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html>
 	<head>
 		<title>
@@ -96,11 +96,11 @@
 	      </ul>
 	      <ul class="nav navbar-nav navbar-right">
 	      	<?php if(isset($_SESSION['user_id'])){?>
-	        	<li><a href="logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-	        <?php } else { ?>
-	        	<li><a href="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-	        	<li><a href="register"><span class="glyphicon glyphicon-log-in"></span> Register</a></li>
-	        <?php } ?>
+            <li><a href="<?= REDIRECT_URL?>login/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+          <?php } else { ?>
+            <li><a href="<?= REDIRECT_URL ?>login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <li><a href="<?= REDIRECT_URL?>register"><span class="glyphicon glyphicon-log-in"></span> Register</a></li>
+          <?php } ?>
 	      </ul>
 	    </div>
 	  </div>
@@ -108,10 +108,10 @@
 		    <?php if(isset($_SESSION['user_id'])){?>
 		    <div class="nav-c">
 			    <ul class="nav navbar-menu">
-			      <li><a href="profile">Profile</a></li>
-			      <li><a href="send">Send email</a></li>
-			      <li><a href="contacts">Contacts</a></li>
-			      <li><a href="messages">History</a></li>
+			      <li><a href="<?=REDIRECT_URL?>profile">Profile</a></li>
+			      <li><a href="<?=REDIRECT_URL?>send">Send email</a></li>
+			      <li><a href="<?=REDIRECT_URL?>contacts">Contacts</a></li>
+			      <li><a href="<?=REDIRECT_URL?>messages">History</a></li>
 			    </ul>
 			</div>
 		    <?php }?>
